@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -51,5 +52,15 @@ class MeterRegistryHolderTest {
 
         // then metric before initialization is dropped
         verify(initMeterRegistry, never()).counter(anyString());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenTryToInitializeAlreadyInitializedHolder() {
+        // given initialized holder
+        MeterRegistry initMeterRegistry = mock(MeterRegistry.class);
+        MeterRegistryHolder.init(initMeterRegistry);
+
+        // expect IllegalStateException when try to initialize holder again
+        assertThrows(IllegalStateException.class, () -> MeterRegistryHolder.init(initMeterRegistry));
     }
 }
