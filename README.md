@@ -31,3 +31,6 @@ When initializing the context, before the holder is initialized, you can registe
 ```java
 MeterRegistryHolder.lateInitMeterRegistry(meterRegistry -> meterRegistry.counter("my.metric").increment());
 ```
+
+If the holder is initialized, the lambda will be executed immediately. 
+Otherwise, the lambda will be remembered and executed at the time of initialization.
